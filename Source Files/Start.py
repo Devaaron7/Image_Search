@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 
 import requests
-import urllib.request
+import urllib.request as req
 import shutil
 
 
@@ -10,15 +10,13 @@ response = requests.get(url)
 
 soup = BeautifulSoup(response.text, "html.parser")
 
-aas = soup.find_all("src",)
-
-print(soup)
+aas = soup.findChildren("img",)
 
 
 
-#search = input("Please enter a term to image search")
+imgurl = "https://www.google.com/" + aas[0]["src"]
 
-
+req.urlretrieve(imgurl, "./bin/image.png")
 
 
 # ("./bin/")
