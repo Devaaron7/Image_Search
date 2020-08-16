@@ -5,16 +5,32 @@ from urllib.request import Request, urlopen
 
 search = input("Enter a search term\n")
 
-req = Request("https://www.lifeofpix.com/search/{}?".format(search), headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'})
+req = Request("https://www.reddit.com/r/Images/search?q={}&restrict_sr=1".format(search), headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'})
+
+#req = Request("https://www.reddit.com/r/Images/search?q=ocean&restrict_sr=1", headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'})
+
 
 webpage = urlopen(req).read()
 
 soup = bs.BeautifulSoup(webpage, "lxml")
 
-for x in soup.find_all("a"):
-    print(x.get("href"))
+raw_links = []
 
-#print(dir(soup))
+jpg_links = []
+
+for x in soup.find_all("a"):
+    raw_links.append(x.get("href"))
+
+
+
+for y in range(0, len(raw_links)):
+    if raw_links[y].find(".jpg") > 0:
+        jpg_links.append(raw_links[y])
+
+
+
+print(raw_links)
+print(jpg_links)
 
 #print(soup)
 
