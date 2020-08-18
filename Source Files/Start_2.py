@@ -24,6 +24,11 @@ for y in range(0, len(raw_links)):
     if raw_links[y].find(".jpg") > 0:
         jpg_links.append(raw_links[y])
 
+## Logic to remove duplicate links
+for c in jpg_links:
+    if jpg_links.count(c) == 2:
+        jpg_links.remove(c)
+
 n = 1
 for y in range(0, len(jpg_links)):
     dl = str(jpg_links[y])
