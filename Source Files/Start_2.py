@@ -33,8 +33,9 @@ n = 1
 for y in range(0, len(jpg_links)):
     dl = str(jpg_links[y])
     r = requests.get(dl, allow_redirects=True)
-    open("./bin/image_{}.jpg".format(n), "wb").write(r.content)
+    open(r"Source Files\bin\image_{}.jpg".format(n), "wb").write(r.content)
     n += 1
+
 
 
 input("Program Complete - Press enter to close")
