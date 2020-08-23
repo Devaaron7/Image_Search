@@ -37,35 +37,53 @@ def scrape_reddit(term):
         n += 1
 
 
-def scrape_google(term):
+def scrape_bing(term):
     
-    req = Request("https://www.google.com/search?q={}&source=lnms&tbm=isch&sa=X&ved=2ahUKEwix9_eMo7HrAhVpplkKHRC0DasQ_AUoAnoECCAQBA&biw=2133&bih=1041".format(term), headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'})
+    req = Request('https://www.bing.com/images/search?sp=-1&ghc=1&pq=' + term + '&sc=8-5&cvid=DE72170968E34CAD96EB4DDD1601C91B&q=' + term + '&qft=+filterui:imagesize-large&form=IRFLTR&first=1&scenario=ImageBasicHover', headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'})
 
     webpage = urlopen(req).read()
 
     soup = bs.BeautifulSoup(webpage, "lxml")
 
-    print(soup)
-
-    input()
 
     raw_links = []
+
+    zoom_links = []
+
+    raw_links1 = []
 
     jpg_links = []
 
     for x in soup.find_all("a"):
         raw_links.append(x.get("href"))
 
-    
-    print(raw_links)
-
-    input()
-
 
 
     for y in range(0, len(raw_links)):
         if raw_links[y].find(".jpg") > 0:
-            jpg_links.append(raw_links[y])
+            zoom_links.append("bing.com" + raw_links[y])
+
+    
+    for o in zoom_links:
+
+        req = Request(o, headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'})
+
+        webpage = urlopen(req).read()
+
+        soup = bs.BeautifulSoup(webpage, "lxml")
+
+        for x in soup.find_all("div"):
+            raw_links1.append(x.get("img"))
+
+
+
+        for y in range(0, len(raw_links1)):
+            if raw_links1[y].find(".jpg") > 0:
+                jpg_links.append("bing.com" + raw_links[y])
+
+    print(jpg_links)
+
+    input()
 
     ## Logic to remove duplicate links
     for c in jpg_links:
@@ -83,6 +101,6 @@ def scrape_google(term):
 
 search = input("Enter a search term\n")
 
-scrape_google(search)
+scrape_bing(search)
 
 input("Program Complete - Press enter to close")
