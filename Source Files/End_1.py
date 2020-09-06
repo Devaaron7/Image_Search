@@ -48,8 +48,11 @@ def scrape_images(term):
 
 search = input("Enter a search term\n")
 
-scrape_images(search)
-
-webbrowser.open(r"Source Files\bin") 
+try:
+    scrape_images(search)
+except ValueError:
+    print("No images found for search term")
+else:   
+    webbrowser.open(r"Source Files\bin") 
 
 input("Program Complete - Press enter to close")
