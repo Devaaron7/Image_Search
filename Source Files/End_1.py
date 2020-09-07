@@ -47,7 +47,7 @@ def scrape_images(term):
     for y in range(0, len(rand_links)):
         dl = str(rand_links[y])
         r = requests.get(dl, allow_redirects=True)
-        open(r"Source Files\bin\image_{}.jpg".format(n), "wb").write(r.content)
+        open("./bin/image_{}.jpg".format(n), "wb").write(r.content)
         n += 1
 
 
@@ -60,6 +60,6 @@ try:
 except ValueError:
     print("No images found for search term")
 else:   
-    webbrowser.open(r"Source Files\bin") 
+    webbrowser.open("./bin") 
 
 input("Program Complete - Press enter to close")
