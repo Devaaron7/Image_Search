@@ -52,26 +52,22 @@ class CalcFrame(GUI_1.MyFrame1):
         for y in range(0, len(rand_links)):
             dl = str(rand_links[y])
             r = requests.get(dl, allow_redirects=True)
-            open(r"Source Files\bin_{}.jpg".format(n), "wb").write(r.content)
+            open(r"Source Files\bin\image_{}.jpg".format(n), "wb").write(r.content)
             n += 1
+        
+        webbrowser.open(r"Source Files\bin")
+
 
 
         
 app = wx.App(False) 
 frame = CalcFrame(None) 
 frame.Show(True) 
-#start the applications 
+
 app.MainLoop() 
 
-# Body of Code is in this function
-
-
-
-
-search = input("Enter a search term\n")
-
 # Code to catch errors that are produced when a search term pulls no results
-
+'''
 try:
     Search_Site(search)
 except ValueError:
@@ -79,4 +75,4 @@ except ValueError:
 else:   
     webbrowser.open("./bin") 
 
-input("Program Complete - Press enter to close")
+'''

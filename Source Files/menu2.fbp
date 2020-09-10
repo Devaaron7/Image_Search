@@ -47,7 +47,7 @@
             <property name="size">376,128</property>
             <property name="style">wxDEFAULT_FRAME_STYLE</property>
             <property name="subclass"></property>
-            <property name="title">Main</property>
+            <property name="title">Image Search</property>
             <property name="tooltip"></property>
             <property name="window_extra_style"></property>
             <property name="window_name"></property>
@@ -281,7 +281,7 @@
                 <property name="gripper">0</property>
                 <property name="hidden">0</property>
                 <property name="id">wxID_ANY</property>
-                <property name="label">MyButton</property>
+                <property name="label">Search</property>
                 <property name="max_size"></property>
                 <property name="maximize_button">0</property>
                 <property name="maximum_size"></property>
