@@ -5,7 +5,7 @@ from urllib.request import Request, urlopen
 import requests
 import random
 import webbrowser
-
+import wx
 
 # Body of Code is in this function
 
