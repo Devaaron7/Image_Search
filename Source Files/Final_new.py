@@ -1,6 +1,7 @@
 import bs4 as bs
 import urllib.request
 import shutil
+import os
 from urllib.request import Request, urlopen
 import requests
 import random
@@ -52,11 +53,11 @@ class MainFrame(GUI_1.MyFrame1):
         for y in range(0, len(rand_links)):
             dl = str(rand_links[y])
             r = requests.get(dl, allow_redirects=True)
-            open("Source Files\\bin\\image_{}.jpg".format(n), "wb").write(r.content)
+            open("./bin/image_{}.jpg".format(n), "wb").write(r.content)
             n += 1
         
         #Opens folder where download jpegs are
-        webbrowser.open("Source Files\\bin")
+        os.system("cmd /c start bin")
 
 
 # Starts the GUI Window        
