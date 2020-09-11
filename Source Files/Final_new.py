@@ -52,11 +52,11 @@ class MainFrame(GUI_1.MyFrame1):
         for y in range(0, len(rand_links)):
             dl = str(rand_links[y])
             r = requests.get(dl, allow_redirects=True)
-            open(r"Source Files\bin\image_{}.jpg".format(n), "wb").write(r.content)
+            open("Source Files\\bin\\image_{}.jpg".format(n), "wb").write(r.content)
             n += 1
         
         #Opens folder where download jpegs are
-        webbrowser.open(r"Source Files\bin")
+        webbrowser.open("Source Files\\bin")
 
 
 # Starts the GUI Window        
