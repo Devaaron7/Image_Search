@@ -10,12 +10,11 @@ import GUI_1
 
 
 class MainFrame(GUI_1.MyFrame1): 
-   def __init__(self,parent): 
-      GUI_1.MyFrame1.__init__(self,parent)  
-		
-   def Search_Site(self, event):
+    def __init__(self,parent): 
+        GUI_1.MyFrame1.__init__(self,parent) 
+    
+    def Web_Search():
         term = self.m_textCtrl3.GetValue()
-        # Source Website
         req = Request("https://unsplash.com/s/photos/{}".format(term), headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'})
 
         webpage = urlopen(req).read()
@@ -53,19 +52,34 @@ class MainFrame(GUI_1.MyFrame1):
             dl = str(rand_links[y])
             r = requests.get(dl, allow_redirects=True)
             open(r"Source Files\bin\image_{}.jpg".format(n), "wb").write(r.content)
-            n += 1
-        
-        webbrowser.open(r"Source Files\bin")
+            n += 1 
 
+    
+		
+    def Search_Site(self, event):
+        try:
+            Web_Search()
+        except ValueError:
+            print("No images found for search term")
+        else:   
+            webbrowser.open(r"Source Files\bin") 
+        
+        
+
+
+class MainFrame2(GUI_1.MyFrame2): 
+   def __init__(self,parent): 
+      GUI_1.MyFrame2.__init__(self,parent)  
         
 app = wx.App(False) 
 frame1 = MainFrame(None) 
 frame1.Show(True) 
+frame2 = MainFrame2(None) 
+frame2.Show(False) 
 
 app.MainLoop() 
 
-
-# Code to catch errors that are produced when a search term pulls no results - out of time to implement into GUI
+# Code to catch errors that are produced when a search term pulls no results
 '''
 try:
     Search_Site(search)

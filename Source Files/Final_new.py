@@ -55,9 +55,11 @@ class MainFrame(GUI_1.MyFrame1):
             open(r"Source Files\bin\image_{}.jpg".format(n), "wb").write(r.content)
             n += 1
         
+        #Opens folder where download jpegs are
         webbrowser.open(r"Source Files\bin")
 
-        
+
+# Starts the GUI Window        
 app = wx.App(False) 
 frame1 = MainFrame(None) 
 frame1.Show(True) 
