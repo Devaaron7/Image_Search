@@ -16,7 +16,7 @@ The script requires the following modules:
 Usage - 
 
 1. Download the zip archive and extract on your computer.
-2. If your familar with pipenv, you can run pipenv sync in the directory with the Pipfile.lock file. This will install the needed modules into your virtual environment.
+2. If your familar with pipenv, you can run pipenv shell, then pipenv sync in the directory with the Pipfile.lock file. This will install the needed modules into your virtual environment.
 3. If you don't want to use the pipenv sync method, you can install the modules globally with pip install "name of module"
 4. Once the modules are installed, run main.py. (not the gui.py file)
 5. Enter a search term and hit the "search" button
