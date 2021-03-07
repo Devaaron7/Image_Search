@@ -8,10 +8,10 @@ Finally it opens the folder so that you can view the images.
 
 The script requires the following modules:
 
-bs4
-requests
-wxPython
-lxml
+- bs4
+- requests
+- wxPython
+- lxml
 
 Usage - 
 
@@ -20,5 +20,13 @@ Usage -
 3. If you don't want to use the pipenv sync method, you can install the modules globally with pip install "name of module"
 4. Once the modules are installed, run main.py
 5. Enter a search term and hit the "search" button
+
+Snapshots below:
+
+![image](https://user-images.githubusercontent.com/65022882/110254152-e2473100-7f5b-11eb-85c0-25a49e750d49.png)
+
+![image](https://user-images.githubusercontent.com/65022882/110254165-fa1eb500-7f5b-11eb-992d-512e54fd4d09.png)
+
+
 
 Thank you for downloading!
