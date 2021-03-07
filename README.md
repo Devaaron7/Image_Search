@@ -6,15 +6,19 @@ The program chooses 3 images randomly for the total collected and places them in
 
 Finally it opens the folder so that you can view the images.
 
-Uses the following Python Modules:
+The script requires the following modules:
 
-bs4 as bs
-urllib.request
-shutil
-os
+bs4
 requests
-random
-webbrowser
-wx
+wxPython
+lxml
 
-I've included a self contained executable version archived as a zip folder the includes all the modules. Just download the zip file, unzip and run the executable.
+Usage - 
+
+1. Download the zip archive and extract on your computer.
+2. If your familar with pipenv, you can run pipenv sync in the directory with the Pipfile.lock file. This will install the needed modules into your virtual environment.
+3. If you don't want to use the pipenv sync method, you can install the modules globally with pip install "name of module"
+4. Once the modules are installed, run main.py
+5. Enter a search term and hit the "search" button
+
+Thank you for downloading!
