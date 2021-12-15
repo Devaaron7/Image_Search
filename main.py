@@ -11,35 +11,10 @@ import webbrowser
 from guizero import App, ListBox, MenuBar, TextBox, Text, Combo, PushButton, Box
 
 
-bin_path = "./bin/"
-check = os.path.isdir(bin_path)
-if not check:
-    os.makedirs(bin_path)
-else:
-    pass
 
-
-app = App(width=350 , height=120, title="Image Search")
-
-text = Text(app, text="Enter A Search Term")
-input_box = TextBox(app, width=175)
-text = Text(app, text="")
-box = Box(app, border=1.1, width="fill", height="fill")
-button = PushButton(box, width="fill", text="Start Search")
-app.display()
-
-
-
-'''
-
-class MainFrame(gui.MyFrame1): 
-
-
-   def __init__(self,parent): 
-      gui.MyFrame1.__init__(self,parent)  
-		
-   def Search_Site(self, event):
-        term = self.m_textCtrl3.GetValue()
+def Search_Site():
+        
+        term = input_box.value
         # Source Website
         req = Request("https://unsplash.com/s/photos/{}".format(term), headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'})
 
@@ -80,25 +55,35 @@ class MainFrame(gui.MyFrame1):
             open("./bin/image_{}.jpg".format(n), "wb").write(r.content)
             n += 1
         
+        
+        text_status.value = "Done!"
         #Opens folder where download jpegs are
         os.system("cmd /c start bin")
 
 
-# Starts the GUI Window        
-app = wx.App(False) 
-frame1 = MainFrame(None) 
-frame1.Show(True) 
+def run_program():
+    try:
+        text_status.clear()
+        Search_Site()
+    except ValueError:
+        text_status.value = "No images found for search term"
 
-app.MainLoop() 
 
 
-# Code to catch errors that are produced when a search term pulls no results - out of time to implement into GUI
+bin_path = "./bin/"
+check = os.path.isdir(bin_path)
+if not check:
+    os.makedirs(bin_path)
+else:
+    pass
 
-try:
-    Search_Site(search)
-except ValueError:
-    print("No images found for search term")
-else:   
-    webbrowser.open("./bin") 
 
-'''
+app = App(width=350 , height=140, title="Image Search")
+
+text = Text(app, text="Enter A Search Term")
+input_box = TextBox(app, width=175)
+text1 = Text(app, text="")
+box = Box(app, border=1.1, width="fill", height="fill")
+button = PushButton(box, width="fill", text="Start Search", command=run_program)
+text_status = Text(box, text="")
+app.display()
