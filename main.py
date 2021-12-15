@@ -19,11 +19,13 @@ else:
     pass
 
 
-app = App(width=350 , height=450)
-box = Box(app)
-text = Text(app, text="Enter A Search Term", align="left")
-input_box = TextBox(app, align="right", width=175)
-button = PushButton(app, width=250, height=250, align=None)
+app = App(width=350 , height=120, title="Image Search")
+
+text = Text(app, text="Enter A Search Term")
+input_box = TextBox(app, width=175)
+text = Text(app, text="")
+box = Box(app, border=1.1, width="fill", height="fill")
+button = PushButton(box, width="fill", text="Start Search")
 app.display()
 
 
