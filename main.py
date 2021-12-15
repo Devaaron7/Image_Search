@@ -6,8 +6,10 @@ from urllib.request import Request, urlopen
 import requests
 import random
 import webbrowser
-import wx
-import gui
+#import wx
+#import gui
+from guizero import App, ListBox, MenuBar, TextBox, Text, Combo, PushButton, Box
+
 
 bin_path = "./bin/"
 check = os.path.isdir(bin_path)
@@ -15,6 +17,18 @@ if not check:
     os.makedirs(bin_path)
 else:
     pass
+
+
+app = App(width=350 , height=450)
+box = Box(app)
+text = Text(app, text="Enter A Search Term", align="left")
+input_box = TextBox(app, align="right", width=175)
+button = PushButton(app, width=250, height=250, align=None)
+app.display()
+
+
+
+'''
 
 class MainFrame(gui.MyFrame1): 
 
@@ -77,7 +91,7 @@ app.MainLoop()
 
 
 # Code to catch errors that are produced when a search term pulls no results - out of time to implement into GUI
-'''
+
 try:
     Search_Site(search)
 except ValueError:
