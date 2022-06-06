@@ -1,89 +1,63 @@
-import bs4 as bs
-import urllib.request
-import shutil
 import os
-from urllib.request import Request, urlopen
-import requests
+import urllib.request
 import random
-import webbrowser
-#import wx
-#import gui
-from guizero import App, ListBox, MenuBar, TextBox, Text, Combo, PushButton, Box
+import requests
+import config
+term = str(input("Please enter a search term.\n"))
 
 
-
-def Search_Site():
-        
-        term = input_box.value
-        # Source Website
-        req = Request("https://unsplash.com/s/photos/{}".format(term), headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'})
-
-        webpage = urlopen(req).read()
-
-        soup = bs.BeautifulSoup(webpage, "lxml")
-
-        # Empty lists used to manage the jpeg links extracted with beautiful soup
-        raw_links = []
-
-        jpg_links = []
-
-        rand_links = []
-
-        # Code to filter all the href links in the HTML file
-
-        for x in soup.find_all("a"):
-            raw_links.append(x.get("href"))
-
-        #Code to grab just the links with the "download" text in them ( hires files)
-
-        for y in range(0, len(raw_links)):
-            if raw_links[y].find("download") > 0:
-                jpg_links.append(raw_links[y])
-
-        # Code to randomly pick 3 jpegs out of the original filtered list to download
-
-        for x in range(0, 3):
-            o = jpg_links[random.randrange(0, len(jpg_links) - 1)]
-            rand_links.append(o)
-
-        # Code to save jpegs with a "Image_#" style based on how many links are saved
-
-        n = 1
-        for y in range(0, len(rand_links)):
-            dl = str(rand_links[y])
-            r = requests.get(dl, allow_redirects=True)
-            open("./bin/image_{}.jpg".format(n), "wb").write(r.content)
-            n += 1
-        
-        
-        text_status.value = "Done!"
-        #Opens folder where download jpegs are
-        os.system("cmd /c start bin")
+#Connection
+url = "https://api.unsplash.com/search/photos?"
+search = {"query": term}
+auth = {"Authorization": "Client-ID {}".format(config.client_id)}
 
 
-def run_program():
-    try:
-        text_status.clear()
-        Search_Site()
-    except ValueError:
-        text_status.value = "No images found for search term"
+# Data Response & Setting Variables 
+api_call = requests.get(url, params = search, headers=auth)
+#breakpoint()
+api_call_limit = api_call.headers["X-Ratelimit-Remaining"]
+
+# Error catching if out of credits for api calls
+try:
+    json_response = api_call.json()
+except:
+    print("The Json didn't receive the expected data from the API ( We're probably out of credits )")
+    print("\nNumber of calls left for the hour: " + api_call_limit)
+    quit()
+
+image_results = json_response["results"]
 
 
+# Logic to return maxiumum of 3 images randomly from results
+filtered_results = []
 
-bin_path = "./bin/"
-check = os.path.isdir(bin_path)
-if not check:
-    os.makedirs(bin_path)
+if len(image_results) >= 3:
+    img_index_choices = list(range(0, len(image_results)))
+    for chosen_items_a in random.sample(img_index_choices, 3):
+        filtered_results.append(image_results[chosen_items_a])
+elif len(image_results) > 0 and len(image_results) < 3:
+    for chosen_items_b in image_results:
+        filtered_results.append(chosen_items_b)
 else:
-    pass
+    raise ValueError("Search term didn't return any items. Please search a different term.")
 
 
-app = App(width=350 , height=140, title="Image Search")
+#Download logic + Naming file with numeric ascending numbers
+n = 1
+for items in filtered_results:
+    dl = items["links"]["download_location"]
+    r = requests.get(dl, headers=auth, stream = True)
 
-text = Text(app, text="Enter A Search Term")
-input_box = TextBox(app, width=175)
-text1 = Text(app, text="")
-box = Box(app, border=1.1, width="fill", height="fill")
-button = PushButton(box, width="fill", text="Start Search", command=run_program)
-text_status = Text(box, text="")
-app.display()
+    if r.text == "Rate Limit Exceeded":
+        raise ValueError("The Api Request limit was exceeded - Please try again in 60 minutes")
+    else:
+        links = r.json()
+        urllib.request.urlretrieve(links["url"], "./bin/image_{}.jpg".format(n))
+        n += 1
+
+#Opens folder where download jpegs are
+os.system("cmd /c start {}".format(os.getcwd() + "/bin"))
+
+print("Total Number of items found for this search: " + str(len(image_results)))
+print("\nNumber of calls left for the hour: " + api_call_limit)
+input("Press any button to end...")
