@@ -6,6 +6,7 @@ import config
 
 class Connect:
 
+
     def __init__(self, search_item) -> None:
         self.search_term = search_item
         self.url = "https://api.unsplash.com/search/photos?"
@@ -25,6 +26,7 @@ class Connect:
             print("\nNumber of calls left for the hour: " + self.api_call_limit)
             quit()
     
+
     def filter_results(self):
 
         if len(self.image_results) >= 3:
@@ -38,6 +40,7 @@ class Connect:
 
         else:
             raise ValueError("Search term didn't return any items. Please search a different term.")
+
 
     def save_path(self):
         bin_path = "./bin/"
@@ -53,15 +56,16 @@ class Connect:
         for items in final_list:
             
             dl = items["links"]["download_location"]
-            r = requests.get(dl, headers=self.auth, stream = True)
+            image_request = requests.get(dl, headers=self.auth, stream = True)
             
-            if r.text == "Rate Limit Exceeded":
+            if image_request.text == "Rate Limit Exceeded":
                 raise ValueError("The Api Request limit was exceeded - Please try again in 60 minutes")
             else:
-                links = r.json()
+                links = image_request.json()
                 
                 urllib.request.urlretrieve(links["url"], "./bin/image_{}.jpg".format(self.file_num))
                 self.file_num  += 1
+
 
     def summary(self):
         print("Total Number of items found for this search: " + str(len(self.image_results)))
