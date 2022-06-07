@@ -1,8 +1,6 @@
 import os
 from UnsplashApi import Connect
 
-
-
 term = str(input("Please enter a search term.\n"))
 
 # Connection
