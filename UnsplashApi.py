@@ -9,23 +9,24 @@ class Connect:
     def __init__(self, search_item) -> None:
         self.search_term = search_item
         self.url = "https://api.unsplash.com/search/photos?"
-        self.search = {"query": search_item}
+        self.search = {"query": self.search_term}
         self.auth = {"Authorization": "Client-ID {}".format(config.client_id)}
+        self.filtered_list = []
 
 
     def start(self):
-        self.api_call = requests.get(self.url, params = self.search_term, headers=self.auth)
+        self.api_call = requests.get(self.url, params = self.search, headers=self.auth)
+        #breakpoint()
         self.api_call_limit = self.api_call.headers["X-Ratelimit-Remaining"]
-        self.json_response = self.api_call.json()
-        self.image_results = self.json_response["results"]
+        json_response = self.api_call.json()
+        self.image_results = json_response["results"]
         
             # print("The Json didn't receive the expected data from the API ( We're probably out of credits )")
             # print("\nNumber of calls left for the hour: " + self.api_call_limit)
             # quit()
-
     
     def filter_results(self):
-        self.filtered_list = []
+        #self.filtered_list = []
 
         if len(self.image_results) >= 3:
             img_index_choices = list(range(0, len(self.image_results)))
@@ -42,9 +43,12 @@ class Connect:
 
     def download_images(self, final_list):
         self.file_num = 1
+        #breakpoint()
         for items in final_list:
             dl = items["links"]["download_location"]
             r = requests.get(dl, headers=config.client_id, stream = True)
+            breakpoint()
+            
 
             if r.text == "Rate Limit Exceeded":
                 raise ValueError("The Api Request limit was exceeded - Please try again in 60 minutes")
