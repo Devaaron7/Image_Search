@@ -20,3 +20,4 @@ session.download_images(session.filtered_list)
 os.system("cmd /c start {}".format(os.getcwd() + "/bin"))
 
 session.summary()
+#
