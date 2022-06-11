@@ -5,7 +5,6 @@ term = str(input("Please enter a search term.\n"))
 # Connection
 session = Connect(term)
 
-
 # Data Response, Setting Variables & Error catching if out of credits for api calls
 session.start()
 
