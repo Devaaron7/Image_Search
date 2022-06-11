@@ -6,8 +6,10 @@ term = str(input("Please enter a search term.\n"))
 # Connection
 session = Connect(term)
 
+#breakpoint()
 # Data Response, Setting Variables & Error catching if out of credits for api calls
 session.start()
+
 
 # Logic to return maxiumum of 3 images randomly from results
 session.filter_results()

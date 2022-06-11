@@ -6,24 +6,36 @@ import config
 
 class Connect:
 
-
     def __init__(self, search_item) -> None:
-        self.search_term = search_item
-        self.url = "https://api.unsplash.com/search/photos?"
-        self.search = {"query": self.search_term}
-        self.auth = {"Authorization": "Client-ID {}".format(config.client_id)}
+
+        self.search_term = {"search": search_item}
+
+        url_image_fetch = "http://127.0.0.1:5000/fetch-data"
+
+        remaining_image_calls = "http://127.0.0.1:5000/fetch-limit"
+
+        self.api_call_images = requests.post(url_image_fetch, json = search_item)
+
+        self.api_call_limit = requests.post(remaining_image_calls, json = search_item)
+        
         self.filtered_list = []
 
 
     def start(self):
-        self.api_call = requests.get(self.url, params = self.search, headers=self.auth)
+
         try:
-            json_response = self.api_call.json()
-            self.api_call_limit = self.api_call.headers["X-Ratelimit-Remaining"]
-            self.image_results = json_response["results"]
+            self.json_response_images = self.api_call_images.json()
+
+            self.json_response_limit = self.api_call_limit.json()
+
+            #breakpoint()
+
+            self.limit_results = self.json_response_limit["X-Ratelimit-Remaining"]
+
+            self.image_results = self.json_response_images["results"]
         except:
             print("The Json didn't receive the expected data from the API ( We're probably out of credits )")
-            print("\nNumber of calls left for the hour: " + self.api_call_limit)
+            print("\nNumber of calls left for the hour: " + self.api_call_images_limit)
             quit()
     
 
@@ -54,9 +66,15 @@ class Connect:
     def download_images(self, final_list):
         self.file_num = 1
         for items in final_list:
+
+            download_route = "http://127.0.0.1:5000/fetch-data"
             
-            dl = items["links"]["download_location"]
-            image_request = requests.get(dl, headers=self.auth, stream = True)
+            download_port = items["links"]["download_location"]
+
+            download_link = requests.post(download_route, json = download_port)
+
+
+            image_request = requests.get(download_link, stream = True)
             
             if image_request.text == "Rate Limit Exceeded":
                 raise ValueError("The Api Request limit was exceeded - Please try again in 60 minutes")
@@ -69,5 +87,5 @@ class Connect:
 
     def summary(self):
         print("Total Number of items found for this search: " + str(len(self.image_results)))
-        print("\nNumber of calls left for the hour: " + self.api_call_limit)
+        print("\nNumber of calls left for the hour: " + self.api_call_images_limit)
         input("Press any button to end...")
