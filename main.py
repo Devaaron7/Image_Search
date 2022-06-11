@@ -1,12 +1,11 @@
-import os
-from UnsplashApi import Connect
+from UnsplashApi import Connect, os
 
 term = str(input("Please enter a search term.\n"))
 
 # Connection
 session = Connect(term)
 
-#breakpoint()
+
 # Data Response, Setting Variables & Error catching if out of credits for api calls
 session.start()
 
@@ -22,7 +21,7 @@ session.download_images(session.filtered_list)
 
 
 # Opens folder where download jpegs are
-os.system("cmd /c start {}".format(os.getcwd() + "/bin"))
+os.system("cmd /c start {}".format(os.getcwd() + "/DownloadFolder"))
 
 # Prints total images returned from Search & remaining Api Calls for the hour
 session.summary()

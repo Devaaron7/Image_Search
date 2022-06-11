@@ -2,7 +2,6 @@ import os
 import urllib.request
 import random
 import requests
-import config
 
 class Connect:
 
@@ -28,14 +27,12 @@ class Connect:
 
             self.json_response_limit = self.api_call_limit.json()
 
-            #breakpoint()
-
             self.limit_results = self.json_response_limit["X-Ratelimit-Remaining"]
 
             self.image_results = self.json_response_images["results"]
         except:
-            print("The Json didn't receive the expected data from the API ( We're probably out of credits )")
-            print("\nNumber of calls left for the hour: " + self.api_call_images_limit)
+            print("The Json didn't receive the expected data from the API ( Are we our of credits? )")
+            print("\nNumber of calls left for the hour: " + self.limit_results)
             quit()
     
 
@@ -55,7 +52,7 @@ class Connect:
 
 
     def save_path(self):
-        bin_path = "./bin/"
+        bin_path = "./DownloadFolder/"
         check = os.path.isdir(bin_path)
         if not check:
             os.makedirs(bin_path)
@@ -63,29 +60,28 @@ class Connect:
             pass
 
 
+
     def download_images(self, final_list):
+        
         self.file_num = 1
         for items in final_list:
 
-            download_route = "http://127.0.0.1:5000/fetch-data"
+            download_route = "http://127.0.0.1:5000/fetch-download"
             
             download_port = items["links"]["download_location"]
 
             download_link = requests.post(download_route, json = download_port)
-
-
-            image_request = requests.get(download_link, stream = True)
             
-            if image_request.text == "Rate Limit Exceeded":
+            if download_link.text == "Rate Limit Exceeded":
                 raise ValueError("The Api Request limit was exceeded - Please try again in 60 minutes")
             else:
-                links = image_request.json()
+                links = download_link.json()
                 
-                urllib.request.urlretrieve(links["url"], "./bin/image_{}.jpg".format(self.file_num))
+                urllib.request.urlretrieve(links["url"], "./DownloadFolder/image_{}.jpg".format(self.file_num))
                 self.file_num  += 1
 
 
     def summary(self):
-        print("Total Number of items found for this search: " + str(len(self.image_results)))
-        print("\nNumber of calls left for the hour: " + self.api_call_images_limit)
+        print("Total Number of images found for this search: " + str(len(self.image_results)))
+        print("\nNumber of calls left for the hour: " + self.limit_results)
         input("Press any button to end...")
