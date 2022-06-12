@@ -9,9 +9,9 @@ class Connect:
 
         self.search_term = {"search": search_item}
 
-        url_image_fetch = "http://127.0.0.1:5000/fetch-data"
+        url_image_fetch = "https://search-unsplash-image.herokuapp.com/fetch-data"
 
-        remaining_image_calls = "http://127.0.0.1:5000/fetch-limit"
+        remaining_image_calls = "https://search-unsplash-image.herokuapp.com/fetch-limit"
 
         self.api_call_images = requests.post(url_image_fetch, json = search_item)
 
@@ -66,7 +66,7 @@ class Connect:
         self.file_num = 1
         for items in final_list:
 
-            download_route = "http://127.0.0.1:5000/fetch-download"
+            download_route = "https://search-unsplash-image.herokuapp.com/fetch-download"
             
             download_port = items["links"]["download_location"]
 
