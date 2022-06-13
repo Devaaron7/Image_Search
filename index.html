@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Search</title>
+</head>
+<body id="body">
+
+    <audio id="my_audio" controls autoplay>
+        <source src="./assets/music.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+
+    <img src="./assets/download.gif" alt="This is an animated gif image, but it does not move"/>
+    <p>Hello World</p>
+    <input type="text" value="Testing"></input>
+    <br>
+    <button onclick=show()>Click Me</button>
+    <br>
+    <!--<img id="image_1" src="./assets/image_1.jpg" alt="Trulli" width="500" height="333"></img>-->
+</body>
+<script>
+
+    var audio = document.getElementById("my_audio");
+    audio.volume = 0.5;
+
+    function show() {
+        var img_1 = new Image();
+        img_1.src = "./assets/image_1.jpg";
+        img_1.height = 333;
+        img_1.width = 500;
+
+        var img_2 = new Image();
+        img_2.src = "./assets/image_2.jpg";
+        img_2.height = 333;
+        img_2.width = 500;
+
+        var img_3 = new Image();
+        img_3.src = "./assets/image_3.jpg";
+        img_3.height = 333;
+        img_3.width = 500;
+
+        document.getElementById('body').appendChild(img_1);
+        document.getElementById('body').appendChild(img_2);
+        document.getElementById('body').appendChild(img_3);
+        console.log("ello govna");
+    }
+     
+
+</script>
+</html>
