@@ -5,22 +5,60 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Search</title>
+    <link href="./assets/css/styles.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 </head>
+
 <body id="body">
-
+    <!--
     <audio id="my_audio" controls autoplay>
-        <source src="./assets/music.mp3" type="audio/mpeg">
+        <source src="./assets/media/music.mp3" type="audio/mpeg">
       Your browser does not support the audio element.
-    </audio>
+    </audio>-->
 
-    <img src="./assets/download.gif" alt="This is an animated gif image, but it does not move"/>
-    <p>Hello World</p>
-    <input type="text" value="Testing"></input>
+    <div id="logo">
+        <img src="./assets/media/download.gif"></img>
+    </div>
+
+    <!-- <p>Enter a search term below to return images</p> -->
+    
+    <!--
+    <div id="search_bar">
+        <input type="text" value="Testing"></input>
+    </div>-->
+
+    <div class="form__group">
+        <input type="text" class="form__input" id="name" placeholder="Enter Search Term" required="" />
+    </div>
+
+    <div id="call_limit">
+        <p>Number of calls left for the hour: #</p>
+    </div>
     <br>
-    <button onclick=show()>Click Me</button>
+
+    <button onclick=show()>Search</button>
+
+    <div id="image_root">
+
+        <!-- <div id="image_container_1">
+
+        </div>
+
+        <div id="image_container_2">
+
+        </div>
+
+        <div id="image_container_3">
+
+        </div> -->
+
+    </div>
+
+    
     <br>
-    <!--<img id="image_1" src="./assets/image_1.jpg" alt="Trulli" width="500" height="333"></img>-->
+    <!--<img id="image_1" src="./assets/media/image_1.jpg" alt="Trulli" width="500" height="333"></img>-->
 </body>
+
 <script>
 
     var audio = document.getElementById("my_audio");
@@ -28,26 +66,27 @@
 
     function show() {
         var img_1 = new Image();
-        img_1.src = "./assets/image_1.jpg";
+        img_1.src = "./assets/media/image_1.jpg";
         img_1.height = 333;
         img_1.width = 500;
 
         var img_2 = new Image();
-        img_2.src = "./assets/image_2.jpg";
+        img_2.src = "./assets/media/image_2.jpg";
         img_2.height = 333;
         img_2.width = 500;
 
         var img_3 = new Image();
-        img_3.src = "./assets/image_3.jpg";
+        img_3.src = "./assets/media/image_3.jpg";
         img_3.height = 333;
         img_3.width = 500;
 
-        document.getElementById('body').appendChild(img_1);
-        document.getElementById('body').appendChild(img_2);
-        document.getElementById('body').appendChild(img_3);
+        document.getElementById('image_root').appendChild(img_1);
+        document.getElementById('image_root').appendChild(img_2);
+        document.getElementById('image_root').appendChild(img_3);
         console.log("ello govna");
     }
      
 
 </script>
+
 </html>
