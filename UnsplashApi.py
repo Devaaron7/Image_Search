@@ -9,15 +9,17 @@ class Connect:
 
         self.search_term = {"search": search_item}
 
-        url_image_fetch = "https://search-unsplash-image.herokuapp.com/fetch-data"
+        url_image_fetch = "http://127.0.0.1:5000/fetch-data"
 
-        remaining_image_calls = "https://search-unsplash-image.herokuapp.com/fetch-limit"
+        remaining_image_calls = "http://127.0.0.1:5000/fetch-limit"
 
         self.api_call_images = requests.post(url_image_fetch, json = search_item)
 
         self.api_call_limit = requests.post(remaining_image_calls, json = search_item)
         
         self.filtered_list = []
+
+        self.dl_list_to_return = []
 
 
     def start(self):
@@ -51,13 +53,13 @@ class Connect:
             raise ValueError("Search term didn't return any items. Please search a different term.")
 
 
-    def save_path(self):
-        bin_path = "./DownloadFolder/"
-        check = os.path.isdir(bin_path)
-        if not check:
-            os.makedirs(bin_path)
-        else:
-            pass
+    # def save_path(self):
+    #     bin_path = "./DownloadFolder/"
+    #     check = os.path.isdir(bin_path)
+    #     if not check:
+    #         os.makedirs(bin_path)
+    #     else:
+    #         pass
 
 
 
@@ -66,7 +68,7 @@ class Connect:
         self.file_num = 1
         for items in final_list:
 
-            download_route = "https://search-unsplash-image.herokuapp.com/fetch-download"
+            download_route = "http://127.0.0.1:5000/fetch-download"
             
             download_port = items["links"]["download_location"]
 
@@ -76,12 +78,16 @@ class Connect:
                 raise ValueError("The Api Request limit was exceeded - Please try again in 60 minutes")
             else:
                 links = download_link.json()
+
+                print(links)
+
+                self.dl_list_to_return.append(links)
                 
-                urllib.request.urlretrieve(links["url"], "./DownloadFolder/image_{}.jpg".format(self.file_num))
-                self.file_num  += 1
+                #urllib.request.urlretrieve(links["url"], "./DownloadFolder/image_{}.jpg".format(self.file_num))
+                #self.file_num  += 1
 
 
     def summary(self):
         print("Total Number of images found for this search: " + str(len(self.image_results)))
         print("\nNumber of calls left for the hour: " + self.limit_results)
-        input("Press any button to end...")
+        #input("Press any button to end...")

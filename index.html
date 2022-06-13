@@ -10,11 +10,11 @@
 </head>
 
 <body id="body">
-    <!--
-    <audio id="my_audio" controls autoplay>
+    
+    <!-- <audio id="my_audio" controls autoplay>
         <source src="./assets/media/music.mp3" type="audio/mpeg">
       Your browser does not support the audio element.
-    </audio>-->
+    </audio> -->
 
     <div id="logo">
         <img src="./assets/media/download.gif"></img>
@@ -28,15 +28,15 @@
     </div>-->
 
     <div class="form__group">
-        <input type="text" class="form__input" id="name" placeholder="Enter Search Term" required="" />
+        <input type="text" class="form__input" id="name" placeholder="Enter a Search Term" required="" />
     </div>
 
     <div id="call_limit">
-        <p>Number of calls left for the hour: #</p>
+        <p id="credits">Number of calls left for the hour: #</p>
     </div>
     <br>
 
-    <button onclick=show()>Search</button>
+    <button onclick=run()>Search</button>
 
     <div id="image_root">
 
@@ -59,16 +59,23 @@
     <!--<img id="image_1" src="./assets/media/image_1.jpg" alt="Trulli" width="500" height="333"></img>-->
 </body>
 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
 <script>
 
+    
+
     var audio = document.getElementById("my_audio");
-    audio.volume = 0.5;
+    audio.volume = 0.1;
+
+    
+
 
     function show() {
-        var img_1 = new Image();
-        img_1.src = "./assets/media/image_1.jpg";
-        img_1.height = 333;
-        img_1.width = 500;
+        // var img_1 = new Image();
+        // img_1.src = "./assets/media/image_1.jpg";
+        // img_1.height = 333;
+        // img_1.width = 500;
 
         var img_2 = new Image();
         img_2.src = "./assets/media/image_2.jpg";
@@ -80,10 +87,53 @@
         img_3.height = 333;
         img_3.width = 500;
 
-        document.getElementById('image_root').appendChild(img_1);
+        // document.getElementById('image_root').appendChild(img_1);
         document.getElementById('image_root').appendChild(img_2);
         document.getElementById('image_root').appendChild(img_3);
+
+        document.getElementById('credits').innerHTML = 'Number of calls left for the hour: #'
+
         console.log("ello govna");
+    }
+
+
+    function run() {
+        var link = "http://127.0.0.1:5000/start"
+        var term = document.getElementById("name").value;
+        //console.log("hello");
+
+    
+        $.ajax({
+        type: "POST",
+        url: link,
+        data: JSON.stringify({ "name": term }),
+        contentType: "application/json",
+        success: function (result) {
+            console.log(result[0]["url"]);
+
+            var img_1 = new Image();
+            img_1.src = result[0]["url"];
+            img_1.height = 333;
+            img_1.width = 500;
+
+            var img_2 = new Image();
+            img_2.src = result[1]["url"];
+            img_2.height = 333;
+            img_2.width = 500;
+
+            var img_3 = new Image();
+            img_3.src = result[2]["url"];
+            img_3.height = 333;
+            img_3.width = 500;
+
+            document.getElementById('image_root').appendChild(img_1);
+            document.getElementById('image_root').appendChild(img_2);
+            document.getElementById('image_root').appendChild(img_3);
+            
+            
+            
+            
+        }})
     }
      
 
