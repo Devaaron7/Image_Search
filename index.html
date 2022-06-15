@@ -11,21 +11,15 @@
 
 <body id="body">
     
-    <!-- <audio id="my_audio" controls autoplay>
+    <audio id="my_audio" controls autoplay>
         <source src="./assets/media/music.mp3" type="audio/mpeg">
       Your browser does not support the audio element.
-    </audio> -->
+    </audio>
 
     <div id="logo">
         <img src="./assets/media/download.gif"></img>
     </div>
 
-    <!-- <p>Enter a search term below to return images</p> -->
-    
-    <!--
-    <div id="search_bar">
-        <input type="text" value="Testing"></input>
-    </div>-->
 
     <div class="form__group">
         <input type="text" class="form__input" id="name" placeholder="Enter a Search Term" required="" />
@@ -36,27 +30,17 @@
     </div>
     <br>
 
-    <button onclick=run()>Search</button>
+    <button id="search_button" onclick=run()>Search</button>
+
+    <br>
 
     <div id="image_root">
 
-        <!-- <div id="image_container_1">
-
-        </div>
-
-        <div id="image_container_2">
-
-        </div>
-
-        <div id="image_container_3">
-
-        </div> -->
 
     </div>
 
-    
     <br>
-    <!--<img id="image_1" src="./assets/media/image_1.jpg" alt="Trulli" width="500" height="333"></img>-->
+    
 </body>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -72,6 +56,9 @@
     function run() {
         var link = "http://127.0.0.1:5000/start"
         var term = document.getElementById("name").value;
+
+
+        document.getElementById("search_button").innerHTML = "Get More Images"
     
 
     
@@ -81,16 +68,16 @@
         data: JSON.stringify({ "name": term }),
         contentType: "application/json",
         success: function (result) {
-            
-            console.log(result)
 
-            const image_node = document.getElementById('image_root');
-            image_node.innerHTML = '';
+
+
+            const image_node = document.getElementById("image_root");
+            image_node.innerHTML = "";
 
             var img_1 = new Image();
             img_1.src = result[0]["url"];
             img_1.onclick = function() {
-                window.location.href = result[0]["url"]
+                window.open(result[0]["url"], "_blank");
             };
             img_1.style ="cursor: pointer";
             img_1.height = 333;
@@ -99,7 +86,7 @@
             var img_2 = new Image();
             img_2.src = result[1]["url"];
             img_2.onclick = function() {
-                window.location.href = result[1]["url"]
+                window.open(result[1]["url"], "_blank");
             };
             img_2.style ="cursor: pointer";
             img_2.height = 333;
@@ -108,7 +95,7 @@
             var img_3 = new Image();
             img_3.src = result[2]["url"];
             img_3.onclick = function() {
-                window.location.href = result[2]["url"]
+                window.open(result[2]["url"], "_blank");
             };
             img_3.style ="cursor: pointer";
             img_3.height = 333;
@@ -118,7 +105,7 @@
             image_node.appendChild(img_2);
             image_node.appendChild(img_3);
 
-            document.getElementById('credits').innerHTML = 'Number of calls left for the hour: ' + result[result.length - 1]["credits"]
+            document.getElementById("credits").innerHTML = "Number of calls left for the hour: " + result[result.length - 1]["credits"]
 
             
             
