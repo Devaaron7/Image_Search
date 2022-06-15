@@ -32,7 +32,7 @@
     </div>
 
     <div id="call_limit">
-        <p id="credits">Number of calls left for the hour: #</p>
+        <p id="credits"></p>
     </div>
     <br>
 
@@ -68,39 +68,11 @@
     var audio = document.getElementById("my_audio");
     audio.volume = 0.1;
 
-    
-
-
-    function show() {
-        // var img_1 = new Image();
-        // img_1.src = "./assets/media/image_1.jpg";
-        // img_1.height = 333;
-        // img_1.width = 500;
-
-        var img_2 = new Image();
-        img_2.src = "./assets/media/image_2.jpg";
-        img_2.height = 333;
-        img_2.width = 500;
-
-        var img_3 = new Image();
-        img_3.src = "./assets/media/image_3.jpg";
-        img_3.height = 333;
-        img_3.width = 500;
-
-        // document.getElementById('image_root').appendChild(img_1);
-        document.getElementById('image_root').appendChild(img_2);
-        document.getElementById('image_root').appendChild(img_3);
-
-        document.getElementById('credits').innerHTML = 'Number of calls left for the hour: #'
-
-        console.log("ello govna");
-    }
-
 
     function run() {
         var link = "http://127.0.0.1:5000/start"
         var term = document.getElementById("name").value;
-        //console.log("hello");
+    
 
     
         $.ajax({
@@ -109,7 +81,11 @@
         data: JSON.stringify({ "name": term }),
         contentType: "application/json",
         success: function (result) {
-            console.log(result[0]["url"]);
+            
+            console.log(result)
+
+            const image_node = document.getElementById('image_root');
+            image_node.innerHTML = '';
 
             var img_1 = new Image();
             img_1.src = result[0]["url"];
@@ -126,9 +102,13 @@
             img_3.height = 333;
             img_3.width = 500;
 
-            document.getElementById('image_root').appendChild(img_1);
-            document.getElementById('image_root').appendChild(img_2);
-            document.getElementById('image_root').appendChild(img_3);
+            image_node.appendChild(img_1);
+            image_node.appendChild(img_2);
+            image_node.appendChild(img_3);
+
+            document.getElementById('credits').innerHTML = 'Number of calls left for the hour: ' + result[result.length - 1]["credits"]
+
+            
             
             
             
