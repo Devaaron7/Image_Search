@@ -89,16 +89,28 @@
 
             var img_1 = new Image();
             img_1.src = result[0]["url"];
+            img_1.onclick = function() {
+                window.location.href = result[0]["url"]
+            };
+            img_1.style ="cursor: pointer";
             img_1.height = 333;
             img_1.width = 500;
 
             var img_2 = new Image();
             img_2.src = result[1]["url"];
+            img_2.onclick = function() {
+                window.location.href = result[1]["url"]
+            };
+            img_2.style ="cursor: pointer";
             img_2.height = 333;
             img_2.width = 500;
 
             var img_3 = new Image();
             img_3.src = result[2]["url"];
+            img_3.onclick = function() {
+                window.location.href = result[2]["url"]
+            };
+            img_3.style ="cursor: pointer";
             img_3.height = 333;
             img_3.width = 500;
 
