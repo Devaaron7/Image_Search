@@ -11,10 +11,10 @@
 
 <body id="body">
     
-    <audio id="my_audio" controls autoplay>
+    <!-- <audio id="my_audio" controls autoplay>
         <source src="./assets/media/music.mp3" type="audio/mpeg">
       Your browser does not support the audio element.
-    </audio>
+    </audio> -->
 
     <div id="logo">
         <img src="./assets/media/download.gif"></img>
@@ -31,6 +31,8 @@
     <br>
 
     <button id="search_button" onclick=run()>Search</button>
+
+    <p id="error" style="color: red;"></p>
 
     <br>
 
@@ -69,50 +71,83 @@
         contentType: "application/json",
         success: function (result) {
 
+            //console.log(result.length)
+
 
 
             const image_node = document.getElementById("image_root");
             image_node.innerHTML = "";
+            document.getElementById("error").innerHTML = ""
 
-            var img_1 = new Image();
-            img_1.src = result[0]["url"];
-            img_1.onclick = function() {
-                window.open(result[0]["url"], "_blank");
-            };
-            img_1.style ="cursor: pointer";
-            img_1.height = 333;
-            img_1.width = 500;
 
-            var img_2 = new Image();
-            img_2.src = result[1]["url"];
-            img_2.onclick = function() {
-                window.open(result[1]["url"], "_blank");
-            };
-            img_2.style ="cursor: pointer";
-            img_2.height = 333;
-            img_2.width = 500;
+            var images = []
+            var result_index = 0
+            for (var i = 1; i <= result.length - 1; ++i) {
+                images[i] = new Image();
+                images[i].src = result[result_index]["url"];
+                images[i].onclick = function() {
+                    window.open(result[result_index]["url"], "_blank");
+                };
+                console.log(result[result_index]["url"])
+                images[i].style ="cursor: pointer";
+                images[i].height = 333;
+                images[i].width = 500;
+                ++result_index
+                image_node.appendChild(images[i]);
 
-            var img_3 = new Image();
-            img_3.src = result[2]["url"];
-            img_3.onclick = function() {
-                window.open(result[2]["url"], "_blank");
-            };
-            img_3.style ="cursor: pointer";
-            img_3.height = 333;
-            img_3.width = 500;
+            }
 
-            image_node.appendChild(img_1);
-            image_node.appendChild(img_2);
-            image_node.appendChild(img_3);
+
+
+
+            // var img_1 = new Image();
+            // img_1.src = result[0]["url"];
+            // img_1.onclick = function() {
+            //     window.open(result[0]["url"], "_blank");
+            // };
+            // img_1.style ="cursor: pointer";
+            // img_1.height = 333;
+            // img_1.width = 500;
+
+            // var img_2 = new Image();
+            // img_2.src = result[1]["url"];
+            // img_2.onclick = function() {
+            //     window.open(result[1]["url"], "_blank");
+            // };
+            // img_2.style ="cursor: pointer";
+            // img_2.height = 333;
+            // img_2.width = 500;
+
+            // var img_3 = new Image();
+            // img_3.src = result[2]["url"];
+            // img_3.onclick = function() {
+            //     window.open(result[2]["url"], "_blank");
+            // };
+            // img_3.style ="cursor: pointer";
+            // img_3.height = 333;
+            // img_3.width = 500;
+
+            // image_node.appendChild(img_1);
+            // image_node.appendChild(img_2);
+            // image_node.appendChild(img_3);
 
             document.getElementById("credits").innerHTML = "Number of calls left for the hour: " + result[result.length - 1]["credits"]
 
+        },
+        error: function (result) {
+            //console.log(result)
+            document.getElementById("credits").innerHTML = "Number of calls left for the hour: 0"
+            document.getElementById("error").innerHTML = "Error trying to get images - are we out of credits?"
+        }
+        
+    
+
             
             
             
             
             
-        }})
+        })
     }
      
 
