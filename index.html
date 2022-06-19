@@ -11,11 +11,6 @@
 
 <body id="body">
     
-    <!-- <audio id="my_audio" controls autoplay>
-        <source src="./assets/media/music.mp3" type="audio/mpeg">
-      Your browser does not support the audio element.
-    </audio> -->
-
     <div id="logo">
         <img src="./assets/media/download.gif"></img>
     </div>
@@ -24,6 +19,7 @@
     <div class="form__group">
         <input type="text" class="form__input" id="name" placeholder="Enter a Search Term" required="" />
     </div>
+
 
     <div id="call_limit">
         <p id="credits"></p>
@@ -38,6 +34,17 @@
 
     <div id="image_root">
 
+        <a id="img1_link" href="#" target="_blank">
+            <img src="" id="img1_source" width="333" height="500" hidden></img>
+        </a>
+
+        <a id="img2_link" href="#" target="_blank">
+            <img src="" id="img2_source" width="333" height="500" hidden></img>
+        </a>
+
+        <a id="img3_link" href="#" target="_blank">
+            <img src="" id="img3_source" width="333" height="500" hidden></img>
+        </a>
 
     </div>
 
@@ -49,16 +56,19 @@
 
 <script>
 
-    
-
-    var audio = document.getElementById("my_audio");
-    audio.volume = 0.1;
-
-
     function run() {
         var link = "http://127.0.0.1:5000/start"
         var term = document.getElementById("name").value;
 
+        var img_1_link = document.getElementById("img1_link");
+        var img_1_src = document.getElementById("img1_source");
+        var img_2_link = document.getElementById("img2_link");
+        var img_2_src = document.getElementById("img2_source");
+        var img_3_link = document.getElementById("img3_link");
+        var img_3_src = document.getElementById("img3_source");
+
+        const image_links = new Array(img_1_link, img_2_link, img_3_link)
+        const image_sources = new Array(img_1_src, img_2_src, img_3_src)
 
         document.getElementById("search_button").innerHTML = "Get More Images"
 
@@ -69,58 +79,29 @@
         contentType: "application/json",
         success: function (result) {
 
-        
-            console.log(result)
-
-
-            const image_node = document.getElementById("image_root");
-            image_node.innerHTML = "";
-            document.getElementById("error").innerHTML = ""
-
-            
-            var images = []
-            var result_index = 0
             for (var i = 0; i <= result.length - 1; ++i) {
-                images[i] = new Image();
-                images[i].src = result[i]["url"];
-                // This isn't setting a href link for each image, it's setting the link for all images
-                images[i].onclick = function() {
-                    window.open(result[i]["url"])
-                };
-                console.log(result[i]["url"])
-                images[i].style ="cursor: pointer";
-                images[i].height = 333;
-                images[i].width = 500;
-                ++result_index
-                image_node.appendChild(images[i]);
+
+                image_sources[i].setAttribute("hidden", "hidden");
             }
-            
 
-            
 
-            
+            for (var i = 0; i <= result.length - 1; ++i) { 
 
-            
-            
-            
+                image_links[i].setAttribute("href", result[i]["url"])
+                image_sources[i].setAttribute("src", result[i]["url"])   
+                image_sources[i].removeAttribute("hidden")
+            }
+
 
             document.getElementById("credits").innerHTML = "Number of calls left for the hour: " + result[result.length - 1]["credits"]
 
         },
         error: function (result) {
         
-
             document.getElementById("credits").innerHTML = "Number of calls left for the hour: 0"
             document.getElementById("error").innerHTML = "Error trying to get images - are we out of credits?"
         }
         
-    
-
-            
-            
-            
-            
-            
         })
     }
      
