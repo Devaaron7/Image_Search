@@ -61,9 +61,7 @@
 
 
         document.getElementById("search_button").innerHTML = "Get More Images"
-    
 
-    
         $.ajax({
         type: "POST",
         url: link,
@@ -71,72 +69,47 @@
         contentType: "application/json",
         success: function (result) {
 
-            //console.log(result.length)
-
+        
+            console.log(result)
 
 
             const image_node = document.getElementById("image_root");
             image_node.innerHTML = "";
             document.getElementById("error").innerHTML = ""
 
-
+            
             var images = []
             var result_index = 0
-            for (var i = 1; i <= result.length - 1; ++i) {
+            for (var i = 0; i <= result.length - 1; ++i) {
                 images[i] = new Image();
-                images[i].src = result[result_index]["url"];
+                images[i].src = result[i]["url"];
+                // This isn't setting a href link for each image, it's setting the link for all images
                 images[i].onclick = function() {
-                    window.open(result[result_index]["url"], "_blank");
+                    window.open(result[i]["url"])
                 };
-                console.log(result[result_index]["url"])
+                console.log(result[i]["url"])
                 images[i].style ="cursor: pointer";
                 images[i].height = 333;
                 images[i].width = 500;
                 ++result_index
                 image_node.appendChild(images[i]);
-                
-
             }
+            
 
+            
 
+            
 
-
-            // var img_1 = new Image();
-            // img_1.src = result[0]["url"];
-            // img_1.onclick = function() {
-            //     window.open(result[0]["url"], "_blank");
-            // };
-            // img_1.style ="cursor: pointer";
-            // img_1.height = 333;
-            // img_1.width = 500;
-
-            // var img_2 = new Image();
-            // img_2.src = result[1]["url"];
-            // img_2.onclick = function() {
-            //     window.open(result[1]["url"], "_blank");
-            // };
-            // img_2.style ="cursor: pointer";
-            // img_2.height = 333;
-            // img_2.width = 500;
-
-            // var img_3 = new Image();
-            // img_3.src = result[2]["url"];
-            // img_3.onclick = function() {
-            //     window.open(result[2]["url"], "_blank");
-            // };
-            // img_3.style ="cursor: pointer";
-            // img_3.height = 333;
-            // img_3.width = 500;
-
-            // image_node.appendChild(img_1);
-            // image_node.appendChild(img_2);
-            // image_node.appendChild(img_3);
+            
+            
+            
 
             document.getElementById("credits").innerHTML = "Number of calls left for the hour: " + result[result.length - 1]["credits"]
 
         },
         error: function (result) {
-            //console.log(result)
+        
+
             document.getElementById("credits").innerHTML = "Number of calls left for the hour: 0"
             document.getElementById("error").innerHTML = "Error trying to get images - are we out of credits?"
         }
