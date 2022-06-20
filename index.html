@@ -67,10 +67,38 @@
         var img_3_link = document.getElementById("img3_link");
         var img_3_src = document.getElementById("img3_source");
 
-        const image_links = new Array(img_1_link, img_2_link, img_3_link)
-        const image_sources = new Array(img_1_src, img_2_src, img_3_src)
+        var image_links = new Array(img_1_link, img_2_link, img_3_link)
+        var image_sources = new Array(img_1_src, img_2_src, img_3_src)
 
         document.getElementById("search_button").innerHTML = "Get More Images"
+
+
+        //result = [{"url": "./assets/media/image_1.jpg"}, {"url": "./assets/media/image_2.jpg"}, {"url": "./assets/media/image_3.jpg"}, {"credits": 99}]
+
+        //console.log(result.length)
+        // for (var z = 0; z < result.length - 1; ++z) {
+
+        //     if (image_sources[z].hasAttribute("hidden") == false) {
+
+        //         image_sources[z].setAttribute("hidden", "hidden");
+        //     }
+
+        // }
+
+
+        // for (var i = 0; i < result.length - 1; ++i) { 
+
+        //     //console.log(result[i]["url"])
+        //     image_links[i].setAttribute("href", result[i]["url"])
+        //     image_sources[i].setAttribute("src", result[i]["url"])   
+        //     image_sources[i].removeAttribute("hidden")
+
+        // }
+
+
+
+        // document.getElementById("credits").innerHTML = "Number of calls left for the hour: " + result[result.length - 1]["credits"]
+
 
         $.ajax({
         type: "POST",
@@ -79,19 +107,26 @@
         contentType: "application/json",
         success: function (result) {
 
-            for (var i = 0; i <= result.length - 1; ++i) {
+            
+            for (var z = 0; z < result.length - 1; ++z) {
 
-                image_sources[i].setAttribute("hidden", "hidden");
+                if (image_sources[z].hasAttribute("hidden") == false) {
+
+                    image_sources[i].setAttribute("hidden", "hidden");
+                }
+                
             }
 
 
-            for (var i = 0; i <= result.length - 1; ++i) { 
+            for (var i = 0; i < result.length - 1; ++i) { 
 
                 image_links[i].setAttribute("href", result[i]["url"])
                 image_sources[i].setAttribute("src", result[i]["url"])   
                 image_sources[i].removeAttribute("hidden")
+                
             }
 
+            
 
             document.getElementById("credits").innerHTML = "Number of calls left for the hour: " + result[result.length - 1]["credits"]
 
