@@ -57,7 +57,7 @@
 <script>
 
     function run() {
-        var link = "http://127.0.0.1:5000/start"
+        var link = "https://search-unsplash-image.herokuapp.com/start"
         var term = document.getElementById("name").value;
 
         var img_1_link = document.getElementById("img1_link");
@@ -87,8 +87,6 @@
                 image_sources[i].removeAttribute("hidden")
                 
             }
-
-            
 
             document.getElementById("credits").innerHTML = "Number of calls left for the hour: " + result[result.length - 1]["credits"]
 
