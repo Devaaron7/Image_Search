@@ -1,16 +1,45 @@
 from flask import Flask, request, jsonify
 import requests
+from flask_cors import CORS, cross_origin
+from UnsplashApi import Connect, os
 
 app = Flask(__name__)
+
+@app.route("/start", methods=["POST"])
+@cross_origin()
+def start():
+
+    data = request.json
+
+    session = Connect(data["name"])
+
+    session.start()
+
+    if isinstance(session.start(), str) == True:
+        return session.start(), 400
+
+    else:
+
+        session.filter_results()
+
+        session.download_images(session.filtered_list)
+
+        credits_left = {"credits": session.limit_results}
+
+        session.dl_list_to_return.append(credits_left)
+
+        return jsonify(session.dl_list_to_return)
+
+
 
 @app.route("/fetch-data", methods=["POST"])
 def fetch_images():
 
     data = request.json
 
-    url = "https://api.unsplash.com/search/photos?"
+    url = "https://api.unsplash.com/search/photos?per_page=3"
 
-    auth = {"Authorization": "CLIENT ID OMITTED FROM GITHUB REPO"}
+    auth = {"Authorization": "Client-ID CLIENT SECERT OMITTED"}
 
     search_term = {"query": data}
     
@@ -25,9 +54,9 @@ def fetch_limit():
 
     data = request.json
 
-    url = "https://api.unsplash.com/search/photos?"
+    url = "https://api.unsplash.com/search/photos?per_page=3"
 
-    auth = {"Authorization": "CLIENT ID OMITTED FROM GITHUB REPO"}
+    auth = {"Authorization": "Client-ID CLIENT SECERT OMITTED"}
 
     search_term = {"query": data}
     
@@ -44,7 +73,7 @@ def fetch_download():
 
     data = request.json
 
-    auth = {"Authorization": "CLIENT ID OMITTED FROM GITHUB REPO"}
+    auth = {"Authorization": "Client-ID CLIENT SECERT OMITTED"}
 
     image_request = requests.get(data, headers=auth, stream = True)
 
