@@ -12,5 +12,9 @@ Skills used:
 - HTML / CSS code to create user friendly frontend
 - Javascript to allow post request (via Ajax), from the frontend, and use for loops on the backend response to populate the images.
 
+![image](https://user-images.githubusercontent.com/65022882/174692124-9e1d8cfe-1a9f-49fa-a9d7-a3f161046350.png)
+
+![image](https://user-images.githubusercontent.com/65022882/174692516-06226c60-3eac-4c6d-a58e-47b6685d4c17.png)
+
 
 Thank you for downloading!
