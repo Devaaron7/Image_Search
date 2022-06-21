@@ -24,17 +24,18 @@ class Connect:
 
     def start(self):
 
-        try:
+        self.json_response_images = self.api_call_images.json()
 
-            self.json_response_images = self.api_call_images.json()
+        self.json_response_limit = self.api_call_limit.json()
 
-            self.json_response_limit = self.api_call_limit.json()
+        if len(self.json_response_images["results"]) == 0:
+            return "No results from your current search term. Please try another term"
+        else:
 
             self.limit_results = self.json_response_limit["X-Ratelimit-Remaining"]
 
             self.image_results = self.json_response_images["results"]
-        except:
-            return "The Json didn't receive the expected data from the API ( Are we our of credits? )"
+    
              
     
 
