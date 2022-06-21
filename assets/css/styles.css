@@ -54,10 +54,10 @@ button{
     padding: 1.5rem 2rem;
     border-radius: 0.2rem;
     background-color: rgb(255, 255, 255);
-    border: none;
+    border: 20;
+    border-color: rgb(0, 0, 0);
     width: 20%;
     display: block;
-    border-bottom: 0.3rem solid transparent;
     transition: all 0.3s;
     text-align: center;
   }

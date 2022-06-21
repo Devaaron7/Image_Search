@@ -17,7 +17,7 @@
 
 
     <div class="form__group">
-        <input type="text" class="form__input" id="name" placeholder="Enter a Search Term" required="" />
+        <input type="text" class="form__input" id="name" oninput=checkInput() placeholder="Enter a search term" required>
     </div>
 
 
@@ -55,6 +55,22 @@
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
 <script>
+
+    function checkInput() {
+
+        var term = document.getElementById("name")
+        var button = document.getElementById("search_button")
+      
+
+        if (term.value === ""){
+            term.style.borderColor = "red";
+            button.disabled = true;
+            term.placeholder = "Please enter a search term"
+        }else{
+            term.style.borderColor = "black";
+            button.disabled = false;
+        }
+    }
 
     function run() {
         var link = "https://search-unsplash-image.herokuapp.com/start"
