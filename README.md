@@ -7,7 +7,7 @@ Simply go to the website - https://devaaron7.github.io/Image_Search/, enter in a
 You will see up to 3 images returned. You can request new results by hitting the button again.
 
 Skills used:
-- Building backend service to processing API authorization securely and return information to frontend / client.
+- Building backend service for processing API authorization securely and returns information to frontend / client.
 - Writing python code to setup the different endpoints for processing HTTP requests
 - HTML / CSS code to create user friendly frontend
 - Javascript to allow post request (via Ajax), from the frontend, and use of loops on the response to populate the images.
