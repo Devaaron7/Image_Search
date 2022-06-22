@@ -9,7 +9,7 @@ You will see up to 3 images returned. You can request new results by hitting the
 Skills used:
 - Building backend service for processing API authorization securely and returns information to frontend / client.
 - Writing python code to setup the different endpoints for processing HTTP requests
-- HTML / CSS code to create user friendly frontend
+- HTML / CSS code to create a user friendly frontend.
 - Javascript to allow post request (via Ajax), from the frontend, and use of loops on the response to populate the images.
 
 ![image](https://user-images.githubusercontent.com/65022882/174693453-1d825d21-b9cb-43d9-a989-ecb73380829f.png)
