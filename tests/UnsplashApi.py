@@ -28,12 +28,16 @@ class Connect:
 
         self.json_response_limit = self.api_call_limit.json()
 
-        if len(self.json_response_images["results"]) == 0:
+        if self.json_response_limit["X-Ratelimit-Remaining"] == 0:
+
+            return "The Api Request limit was exceeded - Please try again in 60 minutes"
+
+        elif len(self.json_response_images["results"]) == 0:
+
             return "No results from your current search term. Please try another term"
         else:
 
             self.limit_results = self.json_response_limit["X-Ratelimit-Remaining"]
-
             self.image_results = self.json_response_images["results"]
     
              

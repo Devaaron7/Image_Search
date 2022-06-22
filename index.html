@@ -9,11 +9,14 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 </head>
 
-<body id="body">
+<body id="body" onload=wakeServer()>
     
     <div id="logo">
         <img src="./assets/media/download.gif"></img>
     </div>
+
+
+    <p id="server_status" style="color: rgb(0, 0, 0);">Waking up server...</p>
 
 
     <div class="form__group">
@@ -56,6 +59,37 @@
 
 <script>
 
+
+    function wakeServer() {
+
+        var link = "https://search-unsplash-image.herokuapp.com/wake"
+        var status = document.getElementById("server_status")
+
+
+        $.ajax({
+        type: "POST",
+        url: link,
+        data: JSON.stringify({ "alarm": "wake up" }),
+        contentType: "application/json",
+        success: function (result) {
+
+            if (result == "awake") {
+                status.innerHTML = "Server up!"
+                status.style.color = "green"
+            }
+            
+        },
+        error: function (result) {
+            status.innerHTML = "Server not up..."
+            status.style.color = "red"
+
+        }
+        
+        })
+    }
+
+    
+
     function checkInput() {
 
         var term = document.getElementById("name")
@@ -96,6 +130,7 @@
         contentType: "application/json",
         success: function (result) {
 
+            document.getElementById("error").innerHTML = ""
             for (var i = 0; i < result.length - 1; ++i) { 
 
                 image_links[i].setAttribute("href", result[i]["url"])
@@ -109,8 +144,8 @@
         },
         error: function (result) {
         
-            document.getElementById("credits").innerHTML = "Number of calls left for the hour: 0"
-            document.getElementById("error").innerHTML = "Error trying to get images - are we out of credits?"
+            //document.getElementById("credits").innerHTML = "Number of calls left for the hour: 0"
+            document.getElementById("error").innerHTML = result.responseText
         }
         
         })
