@@ -8,58 +8,38 @@
     <link href="./assets/css/styles.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 </head>
-
 <body id="body" onload=wakeServer()>
     
     <div id="logo">
         <img src="./assets/media/download.gif"></img>
     </div>
-
-
     <p id="server_status" style="color: rgb(0, 0, 0);">Waking up server...</p>
-
-
     <div class="form__group">
         <input type="text" class="form__input" id="name" oninput=checkInput() placeholder="Enter a search term" required>
     </div>
-
-
     <div id="call_limit">
         <p id="credits"></p>
     </div>
     <br>
-
     <button id="search_button" onclick=run()>Search</button>
-
     <p id="error" style="color: red;"></p>
-
     <br>
-
     <div id="image_root">
-
         <a id="img1_link" href="#" target="_blank">
             <img src="" id="img1_source" width="333" height="500" hidden></img>
         </a>
-
         <a id="img2_link" href="#" target="_blank">
             <img src="" id="img2_source" width="333" height="500" hidden></img>
         </a>
-
         <a id="img3_link" href="#" target="_blank">
             <img src="" id="img3_source" width="333" height="500" hidden></img>
         </a>
-
     </div>
-
     <br>
     
 </body>
-
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-
 <script>
-
-
     var input = document.getElementById("name");
     input.addEventListener("keypress", function(event) {
     if (event.key === "Enter") {
@@ -67,21 +47,16 @@
         document.getElementById("search_button").click();
     }
     });
-
-
+    
     function wakeServer() {
-
         var link = "https://the-image-search.herokuapp.com/wake"
         var status = document.getElementById("server_status")
-
-
         $.ajax({
         type: "POST",
         url: link,
         data: JSON.stringify({ "alarm": "wake up" }),
         contentType: "application/json",
         success: function (result) {
-
             if (result == "awake") {
                 status.innerHTML = "Server up!"
                 status.style.color = "green"
@@ -91,20 +66,15 @@
         error: function (result) {
             status.innerHTML = "Server not up..."
             status.style.color = "red"
-
         }
         
         })
     }
-
     
-
     function checkInput() {
-
         var term = document.getElementById("name")
         var button = document.getElementById("search_button")
       
-
         if (term.value === ""){
             term.style.borderColor = "red";
             button.disabled = true;
@@ -118,38 +88,30 @@
     function run() {
         var link = "https://the-image-search.herokuapp.com/start"
         var term = document.getElementById("name").value;
-
         var img_1_link = document.getElementById("img1_link");
         var img_1_src = document.getElementById("img1_source");
         var img_2_link = document.getElementById("img2_link");
         var img_2_src = document.getElementById("img2_source");
         var img_3_link = document.getElementById("img3_link");
         var img_3_src = document.getElementById("img3_source");
-
         var image_links = new Array(img_1_link, img_2_link, img_3_link)
         var image_sources = new Array(img_1_src, img_2_src, img_3_src)
-
         document.getElementById("search_button").innerHTML = "Get More Images"
-
-
         $.ajax({
         type: "POST",
         url: link,
         data: JSON.stringify({ "name": term }),
         contentType: "application/json",
         success: function (result) {
-
+            document.getElementById("credits").innerHTML = "Number of calls left for the hour: " + result[result.length - 1]["credits"]
             document.getElementById("error").innerHTML = ""
             for (var i = 0; i < result.length - 1; ++i) { 
-
                 image_links[i].setAttribute("href", result[i]["url"])
                 image_sources[i].setAttribute("src", result[i]["url"])   
                 image_sources[i].removeAttribute("hidden")
                 
             }
-
-            document.getElementById("credits").innerHTML = "Number of calls left for the hour: " + result[result.length - 1]["credits"]
-
+            
         },
         error: function (result) {
         
@@ -158,8 +120,5 @@
         
         })
     }
-     
-
 </script>
-
 </html>
