@@ -60,6 +60,15 @@
 <script>
 
 
+    var input = document.getElementById("name");
+    input.addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        document.getElementById("search_button").click();
+    }
+    });
+
+
     function wakeServer() {
 
         var link = "http://127.0.0.1:5000/wake"
@@ -144,7 +153,6 @@
         },
         error: function (result) {
         
-            //document.getElementById("credits").innerHTML = "Number of calls left for the hour: 0"
             document.getElementById("error").innerHTML = result.responseText
         }
         

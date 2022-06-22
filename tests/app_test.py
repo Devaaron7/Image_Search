@@ -1,9 +1,10 @@
 from flask import Flask, request, jsonify
 import requests
 from flask_cors import CORS, cross_origin
-from UnsplashApi import Connect, os
+from ImageApi_test import Connect, os
 
 app = Flask(__name__)
+
 
 @app.route("/wake", methods=["POST"])
 @cross_origin()
@@ -16,7 +17,6 @@ def wake():
     else:
         return "sleeping"
 
-
 @app.route("/start", methods=["POST"])
 @cross_origin()
 def start():
@@ -25,22 +25,24 @@ def start():
 
     session = Connect(data["name"])
 
+    
     session.start()
 
     if isinstance(session.start(), str) == True:
         return session.start(), 400
 
-    else:
+    session.filter_results()
 
-        session.filter_results()
+    session.download_images(session.filtered_list)
 
-        session.download_images(session.filtered_list)
+    if isinstance(session.download_images(session.filtered_list), str) == True:
+        return session.download_images(session.filtered_list), 400
 
-        credits_left = {"credits": session.limit_results}
+    credits_left = {"credits": session.limit_results}
 
-        session.dl_list_to_return.append(credits_left)
+    session.dl_list_to_return.append(credits_left)
 
-        return jsonify(session.dl_list_to_return)
+    return jsonify(session.dl_list_to_return)
 
 
 
@@ -51,7 +53,7 @@ def fetch_images():
 
     url = "https://api.unsplash.com/search/photos?per_page=3"
 
-    auth = {"Authorization": "Client-ID CLIENT SECERT OMITTED"}
+    auth = {"Authorization": "Client-ID CLIENT SECRET OMITTED FROM GITHUB"}
 
     search_term = {"query": data}
     
@@ -68,7 +70,7 @@ def fetch_limit():
 
     url = "https://api.unsplash.com/search/photos?per_page=3"
 
-    auth = {"Authorization": "Client-ID CLIENT SECERT OMITTED"}
+    auth = {"Authorization": "Client-ID CLIENT SECRET OMITTED FROM GITHUB"}
 
     search_term = {"query": data}
     
@@ -85,7 +87,7 @@ def fetch_download():
 
     data = request.json
 
-    auth = {"Authorization": "Client-ID CLIENT SECERT OMITTED"}
+    auth = {"Authorization": "Client-ID CLIENT SECRET OMITTED FROM GITHUB"}
 
     image_request = requests.get(data, headers=auth, stream = True)
 
