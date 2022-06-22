@@ -5,6 +5,18 @@ from UnsplashApi import Connect, os
 
 app = Flask(__name__)
 
+@app.route("/wake", methods=["POST"])
+@cross_origin()
+def wake():
+
+    data = request.json
+
+    if data["alarm"] == "wake up":
+        return "awake"
+    else:
+        return "sleeping"
+
+
 @app.route("/start", methods=["POST"])
 @cross_origin()
 def start():
